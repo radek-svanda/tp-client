@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'tp-client'
-include('app')
+include('tp')

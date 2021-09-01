@@ -44,7 +44,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'tp.client.AppKt'
+    mainClass = 'tp.client.TpCommandKt'
 }
 
 java {
