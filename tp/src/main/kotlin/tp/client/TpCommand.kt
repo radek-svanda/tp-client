@@ -33,7 +33,8 @@ fun main(args: Array<String>) {
         modules(
             timesheetModule
         )
-        fileProperties()
+        fileProperties("/koin.properties")
+        fileProperties("/private.properties")
     }
 
     TpCommand()

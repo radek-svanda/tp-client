@@ -6,3 +6,6 @@ build
 
 # Ignore intellij
 .idea
+
+# project files
+private.properties
