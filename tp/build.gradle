@@ -15,8 +15,7 @@ plugins {
 }
 
 repositories {
-    // Use JCenter for resolving dependencies.
-    jcenter()
+    mavenCentral()
 }
 
 ext {
@@ -24,14 +23,17 @@ ext {
 }
 
 dependencies {
+    implementation(project(':lib:toml-config'))
+
     // Align versions of all Kotlin components
     implementation platform('org.jetbrains.kotlin:kotlin-bom')
 
     // Use the Kotlin JDK 8 standard library.
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
 
-    // This dependency is used by the application.
-//    implementation 'com.google.guava:guava:29.0-jre'
+    implementation libs.bundles.ktor
+    implementation libs.koin
+    implementation libs.jackson.toml
 
     implementation "com.github.ajalt.clikt:clikt:3.2.0"
 

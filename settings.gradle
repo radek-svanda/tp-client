@@ -8,4 +8,8 @@
  */
 
 rootProject.name = 'tp-client'
+
+enableFeaturePreview("VERSION_CATALOGS")
+
+include('lib:toml-config')
 include('tp')
