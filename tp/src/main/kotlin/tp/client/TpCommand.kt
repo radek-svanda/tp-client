@@ -29,7 +29,7 @@ class TpCommand : CliktCommand() {
 fun main(args: Array<String>) {
 
     startKoin {
-        printLogger()
+//        printLogger()
         modules(
             timesheetModule
         )
@@ -61,5 +61,6 @@ val timesheetModule = module {
 
     single { ApiUrlFactory() }
     single { TimeApi() }
+    single { Settings() }
 
 }

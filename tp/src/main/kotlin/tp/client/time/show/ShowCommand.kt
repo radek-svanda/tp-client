@@ -7,21 +7,26 @@ import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import tp.api.time.TimeApi
+import tp.client.Settings
+import tp.client.parser.YearMonthParser
 import java.time.DayOfWeek
-import java.time.YearMonth
 
-class ShowCommand : CliktCommand() {
+class ShowCommand(
+    private val monthParser: YearMonthParser = YearMonthParser()
+) : CliktCommand() {
 
-    val month: String? by option(help = "Show this month timesheet").default("current")
+    private val month: String? by option(help = "Show this month timesheet").default("current")
 
     companion object : KoinComponent {
         val timeApi: TimeApi by inject()
+        val settings: Settings by inject()
     }
 
     override fun run() {
-        val now = YearMonth.now()
+        val now = monthParser.parse(month)
+
         runBlocking {
-            val response = timeApi.timesheet("username", now.atDay(1), now.atEndOfMonth())
+            val response = timeApi.timesheet(settings.username!!, now.atDay(1), now.atEndOfMonth())
             for (i in 1..now.month.length(now.isLeapYear)) {
                 val d = now.atDay(i)
                 if (d.dayOfWeek == DayOfWeek.SATURDAY || d.dayOfWeek == DayOfWeek.SUNDAY) {
