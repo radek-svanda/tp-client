@@ -1,4 +1,4 @@
-package tp.client.time.show
+package tp.command.time
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.default
@@ -8,11 +8,11 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import tp.api.time.TimeApi
 import tp.client.Settings
-import tp.client.parser.YearMonthParser
+import tp.client.parser.MonthParser
 import java.time.DayOfWeek
 
 class ShowCommand(
-    private val monthParser: YearMonthParser = YearMonthParser()
+    private val monthParser: MonthParser = MonthParser()
 ) : CliktCommand() {
 
     private val month: String? by option(help = "Show this month timesheet").default("current")

@@ -1,4 +1,4 @@
-package tp.client.time
+package tp.command.time
 
 import com.github.ajalt.clikt.core.CliktCommand
 

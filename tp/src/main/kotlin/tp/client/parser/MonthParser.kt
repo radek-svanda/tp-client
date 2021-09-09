@@ -3,7 +3,7 @@ package tp.client.parser
 import java.time.Year
 import java.time.YearMonth
 
-class YearMonthParser {
+class MonthParser {
 
     fun parse(value: String?): YearMonth {
         if (value == null || value == "current") {
