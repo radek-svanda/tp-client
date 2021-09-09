@@ -1,0 +1,15 @@
+[versions]
+koin = '3.1.2'
+ktor = '1.6.2'
+jackson-toml = '2.12.4'
+
+[libraries]
+koin = { module="io.insert-koin:koin-core", version.ref="koin" }
+ktor-client-core = { module="io.ktor:ktor-client-core", version.ref="ktor" }
+ktor-client-cio = { module="io.ktor:ktor-client-cio", version.ref="ktor" }
+ktor-client-gson = { module="io.ktor:ktor-client-gson", version.ref="ktor" }
+
+jackson-toml = { module="com.fasterxml.jackson.dataformat:jackson-dataformat-toml", version.ref="jackson-toml" }
+
+[bundles]
+ktor = [ "ktor-client-core", "ktor-client-cio", "ktor-client-gson" ]
