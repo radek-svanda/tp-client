@@ -33,7 +33,7 @@ dependencies {
 
     implementation libs.bundles.ktor
     implementation libs.koin
-    implementation libs.jackson.toml
+    implementation libs.bundles.jackson
 
     implementation "com.github.ajalt.clikt:clikt:3.2.0"
 

@@ -15,6 +15,9 @@ import tp.api.ApiUrlFactory
 import tp.api.time.TimeApi
 import tp.client.Settings
 import tp.client.json.DateDeserializer
+import tp.client.ktor.feature.xml.XmlFeature
+import tp.client.ktor.feature.xml.XmlSerializer
+import tp.client.parser.DateParser
 import tp.command.time.AddCommand
 import tp.command.time.ShowCommand
 import tp.command.time.TimeCommand
@@ -57,6 +60,9 @@ val timesheetModule = module {
                 registerTypeAdapter(LocalDateTime::class.java, DateDeserializer())
             }
         }
+        install(XmlFeature) {
+            serializer = XmlSerializer.Default()
+        }
     }
 
     single {
@@ -66,5 +72,6 @@ val timesheetModule = module {
     single { ApiUrlFactory() }
     single { TimeApi() }
     single { Settings() }
+    single { DateParser() }
 
 }
