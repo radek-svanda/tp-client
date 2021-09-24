@@ -1,9 +1,14 @@
 package tp.api.model
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
+
 data class Assignable(
-  val resourceType: String,
-  val id: Long,
-  val name: String? = null
+    @get:JacksonXmlProperty(isAttribute = true)
+    val resourceType: String,
+    @get:JacksonXmlProperty(isAttribute = true)
+    val id: Long,
+    @get:JacksonXmlProperty(isAttribute = true)
+    val name: String? = null
 ) {
     companion object {
         fun request(id: Long, resourceType: String = "Assignable"): Assignable =
