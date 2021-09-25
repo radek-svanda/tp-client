@@ -17,6 +17,7 @@ import tp.client.Settings
 import tp.client.json.DateDeserializer
 import tp.client.ktor.feature.xml.XmlFeature
 import tp.client.ktor.feature.xml.XmlSerializer
+import tp.client.ktor.feature.yaml.readYamlProperties
 import tp.client.parser.DateParser
 import tp.command.time.AddCommand
 import tp.command.time.ShowCommand
@@ -34,12 +35,13 @@ class TpCommand : CliktCommand() {
 fun main(args: Array<String>) {
 
     startKoin {
-//        printLogger()
         modules(
             timesheetModule
         )
         fileProperties("/koin.properties")
-        fileProperties("/private.properties")
+        properties(readYamlProperties(
+            "${System.getProperty("user.home")}/.config/tp/tp.yaml"
+        ))
     }
 
     TpCommand()
