@@ -12,6 +12,7 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import org.koin.fileProperties
 import tp.api.ApiUrlFactory
+import tp.api.assignables.TaskApi
 import tp.api.time.TimeApi
 import tp.client.Settings
 import tp.client.json.DateDeserializer
@@ -73,6 +74,7 @@ val timesheetModule = module {
 
     single { ApiUrlFactory() }
     single { TimeApi() }
+    single { TaskApi() }
     single { Settings() }
     single { DateParser() }
 
