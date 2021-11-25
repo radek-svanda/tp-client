@@ -17,8 +17,8 @@ class AddCommand : CliktCommand() {
 
     private val date: String? by option(help = "Add time for this date").default("today")
     private val task: Long by option(help = "The task number").long().required()
-    private val spent: Int by option(help = "Spent hours").int().default(8)
-    private val remain: Int by option(help = "Remaining hours").int().default(0)
+    private val spent: Int by option(help = "Spent hours").int().required()
+    private val remain: Int by option(help = "Remaining hours").int().required()
 
     companion object : KoinComponent {
         val dateParser: DateParser by inject()
