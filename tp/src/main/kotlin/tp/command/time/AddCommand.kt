@@ -9,8 +9,11 @@ import com.github.ajalt.clikt.parameters.types.long
 import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import tp.api.assignables.TaskApi
 import tp.api.time.TimeApi
 import tp.client.parser.DateParser
+import java.io.File
+import java.util.concurrent.TimeUnit
 
 class AddCommand : CliktCommand() {
 
@@ -20,11 +23,17 @@ class AddCommand : CliktCommand() {
     private val remain: Int? by option(help = "Remaining hours").int()
     private val preset: String? by option(help = "Use preset defined in configuration to set parameters")
 
+    companion object : KoinComponent {
+        val dateParser: DateParser by inject()
+        val timeApi: TimeApi by inject()
+        val taskApi: TaskApi by inject()
+    }
+
     private val timePreset: TimePreset
         get() = TimePreset.getPreset(preset)
 
     private val taskValue: Long
-        get() = task ?: timePreset.task ?: throw missingOption("task")
+        get() = task ?: timePreset.task ?: selectTask() ?: throw missingOption("task")
 
     private val spentValue: Int
         get() = spent ?: timePreset.spent ?: throw missingOption("spent")
@@ -37,9 +46,25 @@ class AddCommand : CliktCommand() {
         currentContext
     )
 
-    companion object : KoinComponent {
-        val dateParser: DateParser by inject()
-        val timeApi: TimeApi by inject()
+    private fun selectTask(): Long {
+        val rows = runBlocking {
+            val tasks = taskApi.myTasks()
+            tasks.items.map { "${it.id} ${it.name}" }.joinToString("\n")
+        }
+        val temp = File.createTempFile("tp-client", "tasks")
+        temp.writeText(rows)
+        val sel =
+//            "cat ${temp.absolutePath} | fzf"
+            "fzf --help"
+                .runCommand(
+//            input = temp
+        )
+        // needs terminal:
+        // https://github.com/JetBrains/pty4j
+
+        println("${sel}")
+//        TODO()
+        return 1L
     }
 
     override fun run() {
@@ -54,3 +79,22 @@ class AddCommand : CliktCommand() {
     }
 
 }
+
+fun String.runCommand(
+    workingDir: File = File("."),
+    timeoutAmount: Long = 60,
+    timeoutUnit: TimeUnit = TimeUnit.SECONDS,
+    input: File? = null
+): String? = runCatching {
+    ProcessBuilder("\\s".toRegex().split(this))
+        .directory(workingDir)
+        .redirectOutput(ProcessBuilder.Redirect.PIPE)
+        .redirectError(ProcessBuilder.Redirect.PIPE)
+//        .redirectInput(input)
+        .start().also {
+            it.waitFor()
+//            it.waitFor(timeoutAmount, timeoutUnit)
+        }
+
+        .inputStream.bufferedReader().readText()
+}.onFailure { it.printStackTrace() }.getOrNull()
