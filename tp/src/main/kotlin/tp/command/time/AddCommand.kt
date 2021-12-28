@@ -13,6 +13,7 @@ import tp.api.assignables.TaskApi
 import tp.api.time.TimeApi
 import tp.client.parser.DateParser
 import java.io.File
+import java.time.DayOfWeek
 import java.util.concurrent.TimeUnit
 
 class AddCommand : CliktCommand() {
@@ -58,7 +59,7 @@ class AddCommand : CliktCommand() {
             "fzf --help"
                 .runCommand(
 //            input = temp
-        )
+                )
         // needs terminal:
         // https://github.com/JetBrains/pty4j
 
@@ -69,12 +70,18 @@ class AddCommand : CliktCommand() {
 
     override fun run() {
         runBlocking {
-            timeApi.add(
-                taskId = taskValue,
-                date = date.let { dateParser.parse(it) },
-                spent = spentValue,
-                remain = remainValue
-            )
+            date.let { dateParser.parse(it) }
+                .filter {
+                    it.dayOfWeek != DayOfWeek.SATURDAY && it.dayOfWeek != DayOfWeek.SUNDAY
+                }
+                .forEach { dateValue ->
+                    timeApi.add(
+                        taskId = taskValue,
+                        date = dateValue,
+                        spent = spentValue,
+                        remain = remainValue
+                    )
+                }
         }
     }
 

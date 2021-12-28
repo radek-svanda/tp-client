@@ -44,3 +44,31 @@ time:
       remain: 0
     ...
 ```
+
+## Usage
+
+### Add time to timesheet
+
+Log time against a task:
+
+```
+tp time add \
+  --task <task id> --date <date> --spent <hours> --remain <hours>
+```
+
+Log time using a preset: (missing parameters are taken from configured preset. See above)
+
+```
+tp time add \
+  --preset my-dev-work --date <date>
+```
+
+Accepted date formats:
+
+* `YYYY-MM-DD` or anything parseable by `LocalDate.parse()`
+* aliases: (single for now)
+  * `today` - means today
+* single number - means day of current month
+* range of dates
+  * `2021-12-10..23` - 10th to 23rd of December 2021
+  * `10..23` - 10th to 23rd of current month

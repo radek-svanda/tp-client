@@ -10,9 +10,9 @@ data class Assignable(
     @get:JacksonXmlProperty(isAttribute = true)
     val name: String? = null,
 
-    val entityState: EntityState? = null,
-    val owner: User? = null,
-    val assignedUser: ItemList<User>? = null
+//    val entityState: EntityState? = null,
+//    val owner: User? = null,
+//    val assignedUser: ItemList<User>? = null
 
 ) {
     companion object {
